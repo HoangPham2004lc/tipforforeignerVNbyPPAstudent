@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vietnam Travel Guide for Foreigners</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1583417319070-4a69db38a482?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .category-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: left 0.3s ease;
+        }
+
+        .category-card:hover::before {
+            left: 0;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .category-icon {
+            font-size: 2rem;
+            margin-right: 15px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .category-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .category-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .advice-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .advice-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .advice-text {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+        }
+
+        .tip-box h3 {
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+        }
+
+        .emergency-info {
+            background: #2c3e50;
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .emergency-info h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .emergency-numbers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .emergency-number {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: #667eea;
+            cursor: pointer;
+            float: right;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-btn.rotated {
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🇻🇳 Vietnam Travel Guide</h1>
+            <p>Essential advice for foreigners exploring Vietnam</p>
+        </div>
+
+        <div class="category-grid">
+            <div class="category-card" data-category="transport">
+                <div class="category-header">
+                    <div class="category-icon">🚗</div>
+                    <div class="category-title">Transportation</div>
+                    <button class="toggle-btn">▼</button>
+                </div>
+                <div class="category-content">
+                    <div class="advice-item">
+                        <div class="advice-title">Grab (Ride-hailing)</div>
+                        <div class="advice-text">Use Grab app for safe, reliable rides. Always confirm license plate and driver details. Grab Bike is cheapest, Grab Car for comfort.</div>
+                    </div>
+                    <div class="advice-item">
+                        <div class="advice-title">Motorbike Taxis (Xe Om)</div>
+                        <div class="advice-text">Negotiate price before riding. Always wear helmet. Hold onto the driver or grab rails. Agree on price in Vietnamese Dong.</div>
+                    </div>
+                    <div class="advice-item">
+                        <div class="advice-title">Buses</div>
+                        <div class="advice-text">Local buses are very cheap but crowded. Download bus apps or ask locals for routes. Have exact change ready.</div>
+                    </div>
+                    <div class="advice-item">
+                        <div class="advice-title">Taxis</div>
+                        <div class="advice-text">Use reputable companies like Mai Linh or Vinasun. Insist on using the meter. Avoid unmarked taxis at tourist areas.</div>
+                    </div>
+                    <div class="warning-box">
+                        <h3>⚠️ Traffic Warning</h3>
+                        <p>Vietnamese traffic can be overwhelming. Cross streets slowly and steadily - don't stop suddenly. Motorbikes will flow around you.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-card" data-category="food">
+                <div class="category-header">
+                    <div class="category-icon">🍜</div>
+                    <div class="category-title">Food & Dining</div>
+                    <button class="toggle-btn">▼</button>
+                </div>
+                <div class="category-content">
+                    <div class="advice-item">
+                        <div class="advice-title">Street Food</div>
+                        <div class="advice-text">Look for busy stalls with high turnover. Eat where locals eat. Avoid pre-cut fruits and ice from unknown sources initially.</div>
+                    </div>
+                    <div class="advice-item">
+                        <div class="advice-title">Restaurant Etiquette</div>
+                        <div class="advice-text">Tipping is not mandatory but appreciated (5-10%). Share dishes family-style. Use chopsticks properly or ask for fork/spoon.</div>
+                    </div>
+                    <div class="advice-item">
+                        <div class="advice-title">Must-Try Dishes</div>
+                        <div class="advice-text">Pho (noodle soup), Banh Mi (sandwiches), Bun Cha (grilled pork), Cao Lau (Hoi An noodles), Vietnamese coffee.</div>
+                    </div>
+                    <div class="advice-item">
+                        <div class="advice-title">Dietary Restrictions</div>
+                        <div class="advice-text">Learn key phrases: "Tôi ăn chay" (I'm vegetarian), "Không thịt" (No meat). Fish sauce is common - specify if avoiding.</div>
+                    </div>
+                    <div class="tip-box">
+                        <h3>💡 Pro Tip</h3>
+                        <p>Download a translation app to help with menus. Point to what others are eating if you like how it looks!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-card" data-category="culture">
+                <div class="category-header">
+                    <div class="category-icon">🏛️</div>
+                    <div class="category-title">Culture & Etiquette</div>
+                    <button class="toggle-btn">▼</button>
+                </div>
+                <div class="category-content">
+                    <div class="advice-item">
+                        <div class="advice-title">Greetings</div>
+                        <div class="advice-text">Slight bow or nod is respectful. Handshakes are common in business. Use both hands when giving/receiving business cards.</div>
+                    </div>
+                    <div class="advice-item">
+                        <div class="advice-title">Temple/Pagoda Visits</div>
+                        <div class="advice-text">Remove shoes before entering. Dress modestly. Don't point feet toward altars. Small donation in money box is appreciated.</div>
+                    </div>
+                    <div class="advice-item">
+                        <div class="advice-title">Photography</div>
+                        <div class="advice-text">Ask permission before photographing people. Avoid military/government buildings. Be respectful at religious sites.</div>
+                    </div>
+                    <div class="advice-item">
+                        <div class="advice-title">Bargaining</div>
+                        <div class="advice-text">Expected at markets, not in stores with fixed prices. Start at 30-50% of asking price. Smile and be friendly.</div>
+                    </div>
+                    <div class="advice-item">
+                        <div class="advice-title">Gift Giving</div>
+                        <div class="advice-text">Avoid giving even numbers of flowers. Use both hands. Gifts are usually opened later, not immediately.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-card" data-category="money">
+                <div class="category-header">
+                    <div class="category-icon">💰</div>
+                    <div class="category-title">Money & Payments</div>
+                    <button class="toggle-btn">▼</button>
+                </div>
+                <div class="category-content">
+                    <div class="advice-item">
+                        <div class="advice-title">Currency</div>
+                        <div class="advice-text">Vietnamese Dong (VND) is the local currency. USD sometimes accepted at tourist areas but change given in VND.</div>
+                    </div>
+                    <div class="advice-item">
+                        <div class="advice-title">ATMs</div>
+                        <div class="advice-text">Widely available. BIDV, Vietcombank, and Sacombank ATMs are reliable. Check your bank's international fees.</div>
+                    </div>
+                    <div class="advice-item">
+                        <div class="advice-title">Cash vs Cards</div>
+                        <div class="advice-text">Cash is king for street food and local shops. Cards accepted at malls, hotels, upscale restaurants. Always carry cash.</div>
+                    </div>
+                    <div class="advice-item">
+                        <div class="advice-title">Mobile Payments</div>
+                        <div class="advice-text">Momo, ZaloPay popular locally. International cards work with these apps. QR codes common for payments.</div>
+                    </div>
+                    <div class="tip-box">
+                        <h3>💡 Money Tip</h3>
+                        <p>Keep small bills (10,000, 20,000, 50,000 VND) for street vendors and tips. Large bills can be hard to break.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-card" data-category="safety">
+                <div class="category-header">
+                    <div class="category-icon">🛡️</div>
+                    <div class="category-title">Safety & Health</div>
+                    <button class="toggle-btn">▼</button>
+                </div>
+                <div class="category-content">
+                    <div class="advice-item">
+                        <div class="advice-title">General Safety</div>
+                        <div class="advice-text">Vietnam is generally safe for tourists. Petty theft can occur - keep valuables secure. Avoid displaying expensive items.</div>
+                    </div>
+                    <div class="advice-item">
+                        <div class="advice-title">Scams to Avoid</div>
+                        <div class="advice-text">Overcharging foreigners, fake gold shops, motorbike rental scams, inflated taxi fares. Research common scams beforehand.</div>
+                    </div>
+                    <div class="advice-item">
+                        <div class="advice-title">Health Precautions</div>
+                        <div class="advice-text">Drink bottled water. Avoid ice initially. Bring sunscreen and insect repellent. Consider travel insurance.</div>
+                    </div>
+                    <div class="advice-item">
+                        <div class="advice-title">Pharmacies</div>
+                        <div class="advice-text">Pharmacies everywhere, look for "Nhà Thuốc" signs. Many medications available without prescription. Bring prescription copies.</div>
+                    </div>
+                    <div class="warning-box">
+                        <h3>🚨 Important Safety Tips</h3>
+                        <p>Keep copies of passport and visa. Register with your embassy. Have emergency contacts readily available.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-card" data-category="communication">
+                <div class="category-header">
+                    <div class="category-icon">💬</div>
+                    <div class="Category-title">Communication</div>
+                    <button class="toggle-btn">▼</button>
+                </div>
+                <div class="category-content">
+                    <div class="advice-item">
+                        <div class="advice-title">Language Basics</div>
+                        <div class="advice-text">Learn: Xin chào (Hello), Cảm ơn (Thank you), Xin lỗi (Sorry), Bao nhiêu tiền? (How much?)</div>
+                    </div>
+                    <div class="advice-item">
+                        <div class="advice-title">Translation Apps</div>
+                        <div class="advice-text">Google Translate with camera feature is invaluable. Download Vietnamese offline. Voice translation works well.</div>
+                    </div>
+                    <div class="advice-item">
+                        <div class="advice-title">English Speakers</div>
+                        <div class="advice-text">Younger people and tourist areas have more English speakers. Hotels and tourist services usually have English support.</div>
+                    </div>
+                    <div class="advice-item">
+                        <div class="advice-title">Internet & SIM Cards</div>
+                        <div class="advice-text">Buy local SIM card at airport or shops. Viettel, Mobifone, Vinaphone are main providers. WiFi widely available.</div>
+                    </div>
+                    <div class="advice-item">
+                        <div class="advice-title">Useful Apps</div>
+                        <div class="advice-text">Grab (transport), Google Maps, Google Translate, Vietnam travel apps, currency converters, weather apps.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="emergency-info">
+            <h3>🚨 Emergency Numbers</h3>
+            <p>Save these important numbers in your phone</p>
+            <div class="emergency-numbers">
+                <div class="emergency-number">
+                    <strong>Police:</strong> 113
+                </div>
+                <div class="emergency-number">
+                    <strong>Fire:</strong> 114
+                </div>
+                <div class="emergency-number">
+                    <strong>Ambulance:</strong> 115
+                </div>
+                <div class="emergency-number">
+                    <strong>Tourist Hotline:</strong> 1080
+                </div>
+            </div>
+        </div>
+
+        <div class="tip-box" style="margin-top: 30px; text-align: center;">
+            <h3>🌟 Final Advice</h3>
+            <p>Stay curious, be respectful, and embrace the adventure! Vietnamese people are generally warm and helpful to foreign visitors. Don't be afraid to try new things and step out of your comfort zone.</p>
+        </div>
+    </div>
+
+    <script>
+        // Toggle category content
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                if (e.target.classList.contains('toggle-btn')) return;
+                
+                const content = this.querySelector('.category-content');
+                const toggleBtn = this.querySelector('.toggle-btn');
+                
+                // Close all other categories
+                document.querySelectorAll('.category-content').forEach(c => {
+                    if (c !== content) {
+                        c.classList.remove('active');
+                    }
+                });
+                
+                document.querySelectorAll('.toggle-btn').forEach(btn => {
+                    if (btn !== toggleBtn) {
+                        btn.classList.remove('rotated');
+                    }
+                });
+                
+                // Toggle current category
+                content.classList.toggle('active');
+                toggleBtn.classList.toggle('rotated');
+            });
+        });
+
+        // Handle toggle button clicks
+        document.querySelectorAll('.toggle-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const card = this.closest('.category-card');
+                const content = card.querySelector('.category-content');
+                
+                content.classList.toggle('active');
+                this.classList.toggle('rotated');
+            });
+        });
+
+        // Add smooth scrolling for better UX
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('click', function() {
+                setTimeout(() => {
+                    const content = this.querySelector('.category-content');
+                    if (content.classList.contains('active')) {
+                        content.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'nearest' 
+                        });
+                    }
+                }, 100);
+            });
+        });
+
+        // Add some interactive feedback
+        document.querySelectorAll('.advice-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(5px)';
+                this.style.transition = 'transform 0.2s ease';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0)';
+            });
+        });
+    </script>
+</body>
+</html>
